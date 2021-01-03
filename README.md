@@ -1,5 +1,5 @@
 # Url Safety Scanner
-![Node.js CI](https://github.com/PandaSekh/link-scanner/workflows/Node.js%20CI/badge.svg)
+![Node.js CI](https://github.com/PandaSekh/Url-Safety-Scanner/workflows/Node.js%20CI/badge.svg)
 
 Small Node.js utility to check for the safety of URLs.
 
