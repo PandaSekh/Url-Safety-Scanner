@@ -18,9 +18,9 @@ jobs:
       - run: npm ci
       - run: npm run build
       - run: npm run test
-      env:
-        API_KEY: ${{ secrets.API_KEY }}
-        CLIENT_ID: ${{ secrets.CLIENT_ID }}
+        env:
+          API_KEY: ${{ secrets.API_KEY }}
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
 
   publish-npm:
     needs: build
