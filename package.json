@@ -1,6 +1,6 @@
 {
   "name": "url-safety-scanner",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Scan urls to check if they're safe to click or dangerous",
   "main": "dist/index.js",
   "scripts": {
