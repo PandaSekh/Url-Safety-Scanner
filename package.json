@@ -23,6 +23,7 @@
     "url": "https://github.com/PandaSekh/url-safety-scanner.git"
   },
   "dependencies": {
+    "cross-fetch": "^3.0.6",
     "node-fetch": "^2.6.1"
   },
   "devDependencies": {

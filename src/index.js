@@ -1,10 +1,5 @@
-const fetch = require("node-fetch");
-const { THREAT_INFO } = require("./threatInfo");
+const fetch = require("cross-fetch");
 
-/**
- * Constructor for the Scanner Object
- * @access private
- */
 class Scanner {
 	constructor(config, updateThreatInfo = false) {
 		if (!(this instanceof Scanner)) {
@@ -18,6 +13,10 @@ class Scanner {
 			clientVersion: config.clientVersion || "1.0.0",
 		};
 
+		let THREAT_INFO;
+		if (!updateThreatInfo) {
+			THREAT_INFO = require("./threatInfo").THREAT_INFO;
+		}
 		this.threatTypes = updateThreatInfo
 			? new Set()
 			: THREAT_INFO.threatTypes;
