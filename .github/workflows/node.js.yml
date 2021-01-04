@@ -3,11 +3,8 @@
 
 name: Node.js CI
 
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+on: [push, pull_request]
+
 env:
    API_KEY: ${{ secrets.API_KEY }}
    CLIENT_ID: ${{ secrets.CLIENT_ID }}
