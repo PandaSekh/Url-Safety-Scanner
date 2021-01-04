@@ -5,10 +5,10 @@ const { THREAT_INFO } = require("./threatInfo");
  * Constructor for the Scanner Object
  * @access private
  */
-class ScannerConstructor {
+class Scanner {
 	constructor(config, updateThreatInfo = false) {
-		if (!(this instanceof ScannerConstructor)) {
-			return new ScannerConstructor(config);
+		if (!(this instanceof Scanner)) {
+			return new Scanner(config);
 		}
 
 		this.API_KEY = config.apiKey;
@@ -29,30 +29,37 @@ class ScannerConstructor {
 			: THREAT_INFO.threatEntryTypes;
 	}
 
-	async getThreatInfos() {
+	getThreatInfos() {
 		this.threatTypes = new Set();
 		this.platformTypes = new Set();
 		this.threatEntryTypes = new Set();
 
-		await fetch(
-			`https://safebrowsing.googleapis.com/v4/threatLists?key=${this.API_KEY}`,
-			{
-				method: "GET",
-				headers: { "Content-Type": "application/json" },
-			}
-		)
-			.then(res => {
-				if (res.ok) {
-					return res.json();
-				} else throw new Error("Can't update threat list");
-			})
-			.then(jsonRes => {
-				jsonRes.threatLists.forEach(threat => {
-					this.threatTypes.add(threat.threatType);
-					this.platformTypes.add(threat.platformType);
-					this.threatEntryTypes.add(threat.threatEntryType);
+		return new Promise((resolve, reject) => {
+			fetch(
+				`https://safebrowsing.googleapis.com/v4/threatLists?key=${this.API_KEY}`,
+				{
+					method: "GET",
+					headers: { "Content-Type": "application/json" },
+				}
+			)
+				.then(res => {
+					if (res.ok) {
+						return res.json();
+					} else throw new Error("Can't update threat list");
+				})
+				.then(jsonRes => {
+					jsonRes.threatLists.forEach(threat => {
+						this.threatTypes.add(threat.threatType);
+						this.platformTypes.add(threat.platformType);
+						this.threatEntryTypes.add(threat.threatEntryType);
+					});
+					resolve();
+				})
+				.catch(err => {
+					console.error(err);
+					reject();
 				});
-			});
+		});
 	}
 
 	scan = urls => {
@@ -63,7 +70,7 @@ class ScannerConstructor {
 		urls.forEach(url => threatEntries.push({ url: url }));
 		const client = this.CLIENT_INFO;
 
-		return new Promise(resolve => {
+		return new Promise((resolve, reject) => {
 			fetch(
 				`https://safebrowsing.googleapis.com/v4/threatMatches:find?key=${this.API_KEY}`,
 				{
@@ -89,8 +96,17 @@ class ScannerConstructor {
 						});
 					}
 					resolve(Array.from(response));
+				})
+				.catch(err => {
+					console.error(err);
+					reject();
 				});
 		});
+	};
+
+	isSafe = async url => {
+		const scan = await this.scan(url);
+		return !(scan.length > 0 && scan[0] === url);
 	};
 
 	getSafeUrls = async urls => {
@@ -105,26 +121,23 @@ class ScannerConstructor {
 	};
 }
 
-function Scanner(config, updateThreatInfo = false) {
+function ScannerConstructor(config, updateThreatInfo = false) {
 	if (!config) {
 		console.error("Link Scanner: You need to pass a configuration object");
 	} else if (!updateThreatInfo) {
-		return new ScannerConstructor(config, updateThreatInfo);
+		return new Scanner(config, updateThreatInfo);
 	} else {
 		return new Promise(async (resolve, reject) => {
 			try {
-				const scanner = new ScannerConstructor(
-					config,
-					updateThreatInfo
-				);
+				const scanner = new Scanner(config, updateThreatInfo);
 				await scanner.getThreatInfos();
 				return resolve(scanner);
 			} catch (err) {
-				console.error(err);
+				console.error("Couldn't initialize Scanner");
 				reject();
 			}
 		});
 	}
 }
 
-module.exports = Scanner;
+module.exports = ScannerConstructor;

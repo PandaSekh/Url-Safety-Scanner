@@ -1,5 +1,5 @@
 require("dotenv").config();
-const Scanner = require("url-safety-scanner");
+import Scanner from "url-safety-scanner";
 let scanner;
 
 beforeAll(async () => {
@@ -16,6 +16,15 @@ test("With no config it should error", () => {
 	const consoleSpy = jest.spyOn(console, "error");
 	Scanner();
 	expect(consoleSpy).toHaveBeenCalledTimes(1);
+});
+
+test("With invalid API Key it should error", () => {
+	const consoleSpy = jest.spyOn(console, "error");
+	Scanner({
+		apiKey: "invalidKey",
+		clientId: process.env.CLIENT_ID,
+	});
+	expect(consoleSpy).toHaveBeenCalled();
 });
 
 test("Sync Scanner with cached threatLists", async () => {
@@ -80,5 +89,19 @@ test("Get only safe urls", async () => {
 		])
 		.then(data => {
 			expect(data).toEqual(["google.com", "amazon.com", "github.com"]);
+		});
+});
+
+test("Check if a single url is safe with a boolean return", async () => {
+	return scanner.isSafe("google.com").then(res => {
+		expect(res).toBeTruthy();
+	});
+});
+
+test("Check if a single url is unsafe with a boolean return", async () => {
+	return scanner
+		.isSafe("http://malware.testing.google.test/testing/malware/")
+		.then(res => {
+			expect(res).toBeFalsy();
 		});
 });
