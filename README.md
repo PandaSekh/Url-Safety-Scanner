@@ -36,7 +36,7 @@ const myScanner = Scanner({
 ``` 
 
 ## API
-### Scanner
+- ### Scanner
 ```js
 Scanner(config: Object, updateThreatInfo:boolean = false) => ScannerConstructor || Promise(ScannerConstructor)
 ```
@@ -85,7 +85,7 @@ THREAT_INFO = {
 	threatEntryTypes: ["URL"],
 };
 ```
-### isSafe
+- ### isSafe
 ```js
 isSafe(url: String) => Promise<boolean> 
 ```
@@ -108,7 +108,7 @@ myScanner.isSafe("badwebsite.com")
 	// false
 ```
 
-### scan
+- ### scan
 ```js
 scan(urls: Array(String)) => Promise<Array> 
 ```
@@ -131,7 +131,7 @@ myScanner.scan(["github.com", "badwebsite.com"])
 	// ["badwebsite.com"] 
 ```
 
-### getSafeUrls
+- ### getSafeUrls
 ```js
 getSafeUrls(urls: Array<String>) => Promise<Array>
 ```
