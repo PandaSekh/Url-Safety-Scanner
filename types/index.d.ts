@@ -1,22 +1,61 @@
-// Type definitions for url-safety-scanner 1.0.2
-// Project: https://github.com/PandaSekh/Url-Safety-Scanner
-// Definitions by: Alessio Franceschi <https://github.com/PandaSekh/>
-
+export = ScannerConstructor;
+/**
+ *
+ * @param {Config} config
+ * @param {boolean} [updateThreatInfo=false]
+ */
+declare function ScannerConstructor(config: {
+    /**
+     * Google API KEY
+     */
+    apiKey: string;
+    /**
+     * Unique identifier of the client
+     */
+    clientId: string;
+    /**
+     * of the client
+     */
+    Version: string;
+}, updateThreatInfo?: boolean): Promise<any> | Scanner;
 declare class Scanner {
-  constructor(config: ScannerConfig, updateThreatInfo: boolean = false);
-
-  getThreatInfos(): Promise<void>;
-  isSafe(): Promise<boolean>;
-  scan(): Promise<Array<string>>;
-  getSafeUrls(): Promise<Array<string>>
+    /**
+     * @typedef {Object} Config
+     * @property {string} apiKey Google API KEY
+     * @property {string} clientId Unique identifier of the client
+     * @property {string} Version of the client
+     */
+    /**
+     *
+     * @param {Config} configuration object
+     * @param {boolean} updateThreatInfo should the threat info be updated
+     */
+    constructor(Config: any, updateThreatInfo: boolean);
+    API_KEY: any;
+    CLIENT_INFO: {
+        clientId: any;
+        clientVersion: any;
+    };
+    threatTypes: string[] | Set<any>;
+    platformTypes: string[] | Set<any>;
+    threatEntryTypes: string[] | Set<any>;
+    getThreatInfos(): Promise<any>;
+    /**
+     *
+     * @param {Array<string>} urls
+     * @returns {Array<string>} unsafe urls
+     */
+    scan: (urls: Array<string>) => Array<string>;
+    /**
+     *
+     * @param {string} url
+     * @returns {boolean} is the url safe
+     */
+    isSafe: (url: string) => boolean;
+    /**
+     *
+     * @param {Array<string>} urls
+     * @returns {Array<string>} safe urls
+     */
+    getSafeUrls: (urls: Array<string>) => Array<string>;
 }
-
-declare function ScannerConstructor(config: ScannerConfig, updateThreatInfo: boolean = false): Scanner | Promise<Scanner>;
-
-interface ScannerConfig {
-  apiKey: string;
-  clientId: string;
-  clientVersion?: string;
-}
-
-export as namespace Scanner
