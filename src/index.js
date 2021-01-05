@@ -3,14 +3,14 @@ const fetch = require("cross-fetch");
 class Scanner {
 	/**
 	 * @typedef {Object} Config
-	 * @property {string} apiKey Google API KEY
-	 * @property {string} clientId Unique identifier of the client
-	 * @property {string} Version of the client
+	 * @property {string} apiKey
+	 * @property {string} clientId
+	 * @property {string} clientVersion
 	 */
 	/**
 	 *
-	 * @param {Config} configuration object
-	 * @param {boolean} updateThreatInfo should the threat info be updated
+	 * @param {Config} configuration
+	 * @param {boolean} updateThreatInfo
 	 */
 	constructor(Config, updateThreatInfo) {
 		if (!(this instanceof Scanner)) {
@@ -75,7 +75,7 @@ class Scanner {
 	/**
 	 *
 	 * @param {Array<string>} urls
-	 * @returns {Array<string>} unsafe urls
+	 * @returns {Array<string>} unsafeUrls
 	 */
 	scan = urls => {
 		const threatEntries = [];
@@ -122,7 +122,7 @@ class Scanner {
 	/**
 	 *
 	 * @param {string} url
-	 * @returns {boolean} is the url safe
+	 * @returns {boolean} isUrlSafe
 	 */
 	isSafe = async url => {
 		const scan = await this.scan(url);
@@ -132,7 +132,7 @@ class Scanner {
 	/**
 	 *
 	 * @param {Array<string>} urls
-	 * @returns {Array<string>} safe urls
+	 * @returns {Array<string>} safeUrls
 	 */
 	getSafeUrls = async urls => {
 		const unsafe = await this.scan(urls);
