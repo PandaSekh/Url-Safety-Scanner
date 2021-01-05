@@ -15,3 +15,5 @@ node_modules/
 # System Files
 .DS_Store
 dist/
+threatInfo.d.ts
+index.d.ts

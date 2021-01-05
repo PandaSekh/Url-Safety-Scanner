@@ -8,9 +8,14 @@
   "module": "dist/index.module.js",
   "unpkg": "dist/index.umd.js",
   "types": "types",
+  "files":  [
+    "dist",
+    "types"
+  ],
   "scripts": {
     "prebuild": "npx tsc",
     "build": "microbundle src/*.js",
+    "prepublishOnly": "npm run build",
     "pretest": "npm run build",
     "test": "jest"
   },
