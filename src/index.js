@@ -1,16 +1,27 @@
 const fetch = require("cross-fetch");
 
 class Scanner {
-	constructor(config, updateThreatInfo = false) {
+	/**
+	 * @typedef {Object} Config
+	 * @property {string} apiKey Google API KEY
+	 * @property {string} clientId Unique identifier of the client
+	 * @property {string} Version of the client
+	 */
+	/**
+	 *
+	 * @param {Config} configuration object
+	 * @param {boolean} updateThreatInfo should the threat info be updated
+	 */
+	constructor(Config, updateThreatInfo) {
 		if (!(this instanceof Scanner)) {
-			return new Scanner(config);
+			return new Scanner(Config);
 		}
 
-		this.API_KEY = config.apiKey;
+		this.API_KEY = Config.apiKey;
 
 		this.CLIENT_INFO = {
-			clientId: config.clientId,
-			clientVersion: config.clientVersion || "1.0.0",
+			clientId: Config.clientId,
+			clientVersion: Config.clientVersion || "1.0.0",
 		};
 
 		let THREAT_INFO;
@@ -61,6 +72,11 @@ class Scanner {
 		});
 	}
 
+	/**
+	 *
+	 * @param {Array<string>} urls
+	 * @returns {Array<string>} unsafe urls
+	 */
 	scan = urls => {
 		const threatEntries = [];
 		if (!Array.isArray(urls)) {
@@ -103,11 +119,21 @@ class Scanner {
 		});
 	};
 
+	/**
+	 *
+	 * @param {string} url
+	 * @returns {boolean} is the url safe
+	 */
 	isSafe = async url => {
 		const scan = await this.scan(url);
 		return !(scan.length > 0 && scan[0] === url);
 	};
 
+	/**
+	 *
+	 * @param {Array<string>} urls
+	 * @returns {Array<string>} safe urls
+	 */
 	getSafeUrls = async urls => {
 		const unsafe = await this.scan(urls);
 		const safe = [];
@@ -120,6 +146,11 @@ class Scanner {
 	};
 }
 
+/**
+ *
+ * @param {Config} config
+ * @param {boolean} [updateThreatInfo=false]
+ */
 function ScannerConstructor(config, updateThreatInfo = false) {
 	if (!config) {
 		console.error("Link Scanner: You need to pass a configuration object");
