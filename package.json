@@ -10,7 +10,7 @@
   "types": "types",
   "scripts": {
     "prebuild": "npx tsc",
-    "build": "microbundle",
+    "build": "microbundle src/*.js",
     "pretest": "npm run build",
     "test": "jest"
   },
