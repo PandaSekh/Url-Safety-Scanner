@@ -1,5 +1,5 @@
 require("dotenv").config();
-import Scanner from "url-safety-scanner";
+const Scanner = require("../dist/index");
 let scanner;
 
 beforeAll(async () => {
