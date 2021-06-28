@@ -151,5 +151,4 @@ myScanner.getSafeUrls(["github.com", "badwebsite.com"])
 ```
 
 ## License
-MIT License
-Copyright (c) 2021 Alessio Franceschi
+MIT License Alessio Franceschi
