@@ -1,17 +1,20 @@
 {
   "name": "url-safety-scanner",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Scan urls to check if they're safe to click or dangerous",
   "source": "src/index.js",
-  "main": "dist/index.js",
-  "exports": "dist/index.modern.js",
-  "module": "dist/index.module.js",
-  "unpkg": "dist/index.umd.js",
+  "main": "./dist/index.js",
+  "exports": "./dist/index.modern.js",
+  "module": "./dist/index.module.js",
+  "unpkg": "./dist/index.umd.js",
   "types": "types",
   "files":  [
     "dist",
     "types"
   ],
+  "mangle": {
+    "regex": "^_"
+  },
   "scripts": {
     "prebuild": "npx tsc",
     "build": "microbundle src/*.js",
