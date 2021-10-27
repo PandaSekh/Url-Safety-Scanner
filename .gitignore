@@ -17,3 +17,5 @@ node_modules/
 dist/
 threatInfo.d.ts
 index.d.ts
+
+types
