@@ -5,30 +5,21 @@ export = ScannerConstructor;
  * @param {boolean} [updateThreatInfo=false]
  */
 declare function ScannerConstructor(config: {
-    /**
-     * Google API KEY
-     */
     apiKey: string;
-    /**
-     * Unique identifier of the client
-     */
     clientId: string;
-    /**
-     * of the client
-     */
-    Version: string;
+    clientVersion: string;
 }, updateThreatInfo?: boolean): Promise<any> | Scanner;
 declare class Scanner {
     /**
      * @typedef {Object} Config
-     * @property {string} apiKey Google API KEY
-     * @property {string} clientId Unique identifier of the client
-     * @property {string} Version of the client
+     * @property {string} apiKey
+     * @property {string} clientId
+     * @property {string} clientVersion
      */
     /**
      *
-     * @param {Config} configuration object
-     * @param {boolean} updateThreatInfo should the threat info be updated
+     * @param {Config} configuration
+     * @param {boolean} updateThreatInfo
      */
     constructor(Config: any, updateThreatInfo: boolean);
     API_KEY: any;
@@ -43,19 +34,19 @@ declare class Scanner {
     /**
      *
      * @param {Array<string>} urls
-     * @returns {Array<string>} unsafe urls
+     * @returns {Array<string>} unsafeUrls
      */
     scan: (urls: Array<string>) => Array<string>;
     /**
      *
      * @param {string} url
-     * @returns {boolean} is the url safe
+     * @returns {boolean} isUrlSafe
      */
     isSafe: (url: string) => boolean;
     /**
      *
      * @param {Array<string>} urls
-     * @returns {Array<string>} safe urls
+     * @returns {Array<string>} safeUrls
      */
     getSafeUrls: (urls: Array<string>) => Array<string>;
 }
